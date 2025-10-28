@@ -9,17 +9,13 @@ cp -f $GITHUB_WORKSPACE/scripts/bg1.jpg feeds/luci/themes/luci-theme-argon/htdoc
 sed -i "s/luci-theme-bootstrap/luci-theme-argon/g" $(find ./feeds/luci/collections/ -type f -name "Makefile")
 
 # 修改luci首页显示
-sed -i 's/ImmortalWrt/OpenWrt/g' package/base-files/files/bin/config_generate
-sed -i 's/ImmortalWrt/OpenWrt/g' include/version.mk
-sed -i '/Target Platform/d' feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
-rm -rf feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/25_storage.js
-rm -rf feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/29_ports.js
-rm -rf feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/50_dsl.js
-rm -rf feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/60_wifi.js
-rm -rf feeds/luci/applications/luci-app-ddns/htdocs/luci-static/resources/view/status/include/70_ddns.js
+sed -i 's/ImmortalWrt/OpenWrt/gi' package/base-files/files/bin/config_generate
+sed -i 's/ImmortalWrt/OpenWrt/gi' include/version.mk
+rm -rf feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/*
+cp -a $GITHUB_WORKSPACE/scripts/include/* feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/
 rm -rf feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/index.js
 cp -f $GITHUB_WORKSPACE/scripts/index.js feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/index.js
-sed -i "38,47d" $(find ./feeds/ -type f -name "20_memory.js")
+rm -rf feeds/luci/applications/luci-app-ddns/htdocs/luci-static/resources/view/status/include/70_ddns.js
 
 # 关闭RFC1918
 sed -i 's/option rebind_protection 1/option rebind_protection 0/g' package/network/services/dnsmasq/files/dhcp.conf

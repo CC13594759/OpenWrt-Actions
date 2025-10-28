@@ -123,7 +123,7 @@ return baseclass.extend({
 					'class': 'cbi-button cbi-button-apply',
 					'click': L.bind(this.handleCreateStaticLease, this, lease),
 					'disabled': this.isMACStatic[mac]
-				}, [ _('Set Static') ]));
+				}, [ _('Reserve IP') ]));
 			}
 
 			return rows;
@@ -172,7 +172,7 @@ return baseclass.extend({
 					'class': 'cbi-button cbi-button-apply',
 					'click': L.bind(this.handleCreateStaticLease6, this, lease),
 					'disabled': this.isDUIDStatic[duid]
-				}, [ _('Set Static') ]));
+				}, [ _('Reserve IP') ]));
 			}
 
 			return rows;

@@ -28,5 +28,8 @@ sed -i 's/vpn/services/g' feeds/luci/applications/luci-app-zerotier/root/usr/sha
 # etc默认设置
 cp -a $GITHUB_WORKSPACE/scripts/etc/* package/base-files/files/etc/
 
+# 忽略 NSS HASH
+sed -i '/PKG_MIRROR_HASH/d' feeds/nss_packages/firmware/nss-firmware/Makefile
+
 ./scripts/feeds update -a
 ./scripts/feeds install -a

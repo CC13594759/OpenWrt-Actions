@@ -35,5 +35,8 @@ cp -a $GITHUB_WORKSPACE/scripts/etc/* package/base-files/files/etc/
 # 忽略 NSS HASH
 sed -i '/PKG_MIRROR_HASH/d' feeds/nss_packages/firmware/nss-firmware/Makefile
 
+# 修改WIFI设置
+sed -i 's/ImmortalWrt/OpenWrt/g' package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc
+
 ./scripts/feeds update -a
 ./scripts/feeds install -a

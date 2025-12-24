@@ -7,7 +7,7 @@ on:
       - completed
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
-  REPO_BRANCH: openwrt-24.10
+  REPO_BRANCH: openwrt-25.12
   CONFIG_FILE: config/X86-64.config
   DIY_SCRIPT: scripts/diy.sh
   CACHE_TOOLCHAIN: true

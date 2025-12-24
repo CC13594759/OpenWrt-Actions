@@ -13,6 +13,7 @@ sed -i 's/ImmortalWrt/OpenWrt/gi' package/base-files/files/bin/config_generate
 sed -i 's/ImmortalWrt/OpenWrt/gi' include/version.mk
 rm -rf feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/*
 cp -a $GITHUB_WORKSPACE/scripts/include/* feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/
+rm -rf feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/40_dhcp.js
 rm -rf feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/index.js
 cp -f $GITHUB_WORKSPACE/scripts/index.js feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/index.js
 rm -rf feeds/luci/applications/luci-app-ddns/htdocs/luci-static/resources/view/status/include/70_ddns.js

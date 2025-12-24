@@ -7,7 +7,7 @@ on:
 
 jobs:
   Cleaning:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
     - name: 删除旧的工作流

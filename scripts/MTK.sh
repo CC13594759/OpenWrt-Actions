@@ -31,6 +31,10 @@ sed -i 's/8000/0/g' package/network/services/dnsmasq/files/dhcp.conf
 # 修改插件位置
 sed -i 's/vpn/services/g' feeds/luci/applications/luci-app-zerotier/root/usr/share/luci/menu.d/luci-app-zerotier.json
 
+# 修改homeproxy数据库
+sed -i '/^case/,/^esac/d' feeds/luci/applications/luci-app-homeproxy/root/etc/homeproxy/scripts/update_resources.sh
+sed -i '$a case "$1" in\n"china_ip4")\n check_list_update "$1" "Loyalsoldier/surge-rules" "release" "cncidr.txt" && \\\n  sed -i "/IP-CIDR6,/d; s/IP-CIDR,//g" "$RESOURCES_DIR/china_ip4.txt"\n ;;\n"china_ip6")\n check_list_update "$1" "Loyalsoldier/surge-rules" "release" "cncidr.txt" && \\\n  sed -i "/IP-CIDR,/d; s/IP-CIDR6,//g" "$RESOURCES_DIR/china_ip6.txt"\n ;;\n"gfw_list")\n check_list_update "$1" "Loyalsoldier/surge-rules" "release" "gfw.txt" && \\\n  sed -i "s/^\\.//g" "$RESOURCES_DIR/gfw_list.txt"\n ;;\n"china_list")\n check_list_update "$1" "Loyalsoldier/surge-rules" "release" "direct.txt" && \\\n  sed -i "s/^\\.//g" "$RESOURCES_DIR/china_list.txt"\n ;;\n*)\n echo -e "Usage: $0 <china_ip4 / china_ip6 / gfw_list / china_list>"\n exit 1\n ;;\nesac' feeds/luci/applications/luci-app-homeproxy/root/etc/homeproxy/scripts/update_resources.sh
+
 # etc默认设置
 cp -a $GITHUB_WORKSPACE/scripts/etc/* package/base-files/files/etc/
 

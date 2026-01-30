@@ -1,7 +1,7 @@
 # 添加其他仓库的插件 然后去config里添加上对应的插件名
 
 # 修改默认IP
-sed -i 's/192.168.1.1/192.168.12.1/g' package/base-files/files/bin/config_generate
+sed -i 's/192.168.6.1/192.168.12.1/g' package/base-files/files/bin/config_generate
 
 # 修改默认主题
 rm -rf feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg

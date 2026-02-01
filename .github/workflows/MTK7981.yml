@@ -100,7 +100,7 @@ jobs:
         cd $OPENWRT_PATH
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-        cd ./package/mtk/applications/
+        cd openwrt
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         

@@ -6,7 +6,7 @@ on:
     types:
       - completed
 env:
-  REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-6.6
+  REPO_URL: https://github.com/dailook/immortalwrt-mt798x-6.6
   REPO_BRANCH: openwrt-24.10-6.6
   CONFIG_FILE: config/MTK7981.config
   DIY_SCRIPT: scripts/MTK.sh

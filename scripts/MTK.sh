@@ -24,6 +24,9 @@ rm -rf feeds/luci/applications/luci-app-ddns/htdocs/luci-static/resources/view/s
 # 删除attendedsysupgrade
 sed -i '/attendedsysupgrade/d' $(find ./feeds/luci/collections/ -type f -name "Makefile")
 
+# 删除ttyd
+sed -i 's/luci-app-ttyd//g' target/linux/mediatek/Makefile
+
 # 关闭RFC1918
 sed -i 's/option rebind_protection 1/option rebind_protection 0/g' package/network/services/dnsmasq/files/dhcp.conf
 sed -i 's/8000/0/g' package/network/services/dnsmasq/files/dhcp.conf

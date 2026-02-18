@@ -40,11 +40,14 @@ sed -i '$a case "$1" in\n"china_ip4")\n check_list_update "$1" "Loyalsoldier/sur
 # etc默认设置
 cp -a $GITHUB_WORKSPACE/scripts/etc/* package/base-files/files/etc/
 
-# 忽略 NSS HASH
-sed -i '/PKG_MIRROR_HASH/d' feeds/nss_packages/firmware/nss-firmware/Makefile
-
-# 修改WIFI设置
-sed -i 's/ImmortalWrt/OpenWrt/g' package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc
+# 修改WIFI名称
+sed -i "s/ssid='.*'/ssid='OpenWrt'/g" package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc
+#修改WIFI密码
+sed -i "s/key='.*'/key='password'/g" package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc
+#修改WIFI地区
+sed -i "s/country='.*'/country='CN'/g" package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc
+#修改WIFI加密
+sed -i "s/encryption='.*'/encryption='psk2+ccmp'/g" package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc
 
 ./scripts/feeds update -a
 ./scripts/feeds install -a

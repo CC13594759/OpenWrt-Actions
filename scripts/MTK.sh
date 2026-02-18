@@ -41,8 +41,12 @@ sed -i '$a case "$1" in\n"china_ip4")\n check_list_update "$1" "Loyalsoldier/sur
 # etc默认设置
 cp -a $GITHUB_WORKSPACE/scripts/etc/* package/base-files/files/etc/
 
-# 修改WIFI设置
+# 修改WIFI名称
 sed -i 's/ImmortalWrt/OpenWrt/g' package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
+# 修改WIFI加密
+sed -i "s/encryption=.*/encryption='psk2+ccmp'/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
+# 修改WIFI密码
+sed -i "/set wireless.default_\${dev}.encryption='psk2+ccmp'/a \\\t\t\t\t\t\set wireless.default_\${dev}.key='password'" $WIFI_FILE
 
 ./scripts/feeds update -a
 ./scripts/feeds install -a

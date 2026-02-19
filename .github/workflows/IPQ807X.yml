@@ -6,7 +6,7 @@ on:
     types:
       - completed
 env:
-  REPO_URL: https://github.com/VIKINGYFY/immortalwrt
+  REPO_URL: https://github.com/CC13594759/immortalwrt
   REPO_BRANCH: main
   CONFIG_FILE: config/IPQ807X.config
   DIY_SCRIPT: scripts/IPQ.sh

@@ -46,7 +46,10 @@ sed -i 's/ImmortalWrt/OpenWrt/g' package/mtk/applications/mtwifi-cfg/files/mtwif
 # 修改WIFI加密
 sed -i "s/encryption=.*/encryption='psk2+ccmp'/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
 # 修改WIFI密码
-sed -i "/set wireless.default_\${dev}.encryption='psk2+ccmp'/a \\\t\t\t\t\t\set wireless.default_\${dev}.key='password'" $WIFI_FILE
+sed -i "/psk2+ccmp/a \\\t\t\t\t\t\set wireless.default_\${dev}.key='password'" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
+
+# 修改最大连接数为65535
+sed -i "s/conntrack_max=.*/conntrack_max=65535/g" package/kernel/linux/files/sysctl-nf-conntrack.conf
 
 ./scripts/feeds update -a
 ./scripts/feeds install -a

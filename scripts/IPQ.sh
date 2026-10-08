@@ -17,19 +17,12 @@ sed -i -e '/"admin\/system\/plugins": {/,/"admin\/system\/startup": {/ { /"admin
 sed -i '/Target Platform/d' feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
 sed -i '38,47d' feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/20_memory.js
 rm -rf feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/25_storage.js
-rm -rf feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/29_ports.js
 rm -rf feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/50_dsl.js
 rm -rf feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/60_wifi.js
 rm -rf feeds/luci/applications/luci-app-ddns/htdocs/luci-static/resources/view/status/include/70_ddns.js
-sed -i 's/ECM://g' target/linux/qualcommax/base-files/sbin/cpuusage
-sed -i 's/HWE/NSS/g' target/linux/qualcommax/base-files/sbin/cpuusage
 
 # 删除attendedsysupgrade
 sed -i '/attendedsysupgrade/d' $(find ./feeds/luci/collections/ -type f -name "Makefile")
-
-# 关闭RFC1918
-sed -i 's/option rebind_protection 1/option rebind_protection 0/g' package/network/services/dnsmasq/files/dhcp.conf
-sed -i 's/8000/0/g' package/network/services/dnsmasq/files/dhcp.conf
 
 # 修改插件位置
 sed -i 's/vpn/services/g' feeds/luci/applications/luci-app-zerotier/root/usr/share/luci/menu.d/luci-app-zerotier.json
@@ -52,3 +45,4 @@ sed -i "s/encryption='.*'/encryption='psk2+ccmp'/g" package/network/config/wifi-
 
 ./scripts/feeds update -a
 ./scripts/feeds install -a
+

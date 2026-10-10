@@ -34,6 +34,6 @@ sed -i 's/vpn/services/g' feeds/luci/applications/luci-app-zerotier/root/usr/sha
 sed -i 's/nas/services/g' feeds/luci/applications/luci-app-aria2/root/usr/share/luci/menu.d/luci-app-aria2.json
 sed -i 's/nas/services/g' feeds/luci/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
 
-# etc默认设置
-cp -a $GITHUB_WORKSPACE/scripts/etc/* package/base-files/files/etc/
+# 计划任务
+mkdir -p package/base-files/files/etc/crontabs && printf '%s\n' '# 定时重启（每个星期六凌晨2点50）' '#50 2 * * 6 sleep 5 && touch /etc/banner && reboot' > package/base-files/files/etc/crontabs/root
 

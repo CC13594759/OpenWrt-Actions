@@ -1,6 +1,10 @@
 # 添加其他仓库的插件
+# luci-app-iptv
 tar -xzf $GITHUB_WORKSPACE/scripts/luci-app-iptv.tar.gz -C package/
 echo "CONFIG_PACKAGE_luci-app-iptv=y" >> ./.config
+# luci-app-turn
+tar -xzf $GITHUB_WORKSPACE/scripts/turn.tar.gz -C package/
+echo "CONFIG_PACKAGE_luci-app-turn=y" >> ./.config
 
 # 修改默认IP
 sed -i 's/192.168.1.1/192.168.12.1/g' package/base-files/files/bin/config_generate

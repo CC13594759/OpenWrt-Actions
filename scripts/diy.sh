@@ -33,3 +33,6 @@ sed -i 's/defaults?.key || ""/defaults?.key || "password"/' package/network/conf
 sed -i "s/set \${s}.country='\${country || ''}'/set \${s}.country=\"CN\"/; s/set \${s}.country='\${country || \"CN\"}'/set \${s}.country=\"CN\"/" package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc
 # 修改WIFI加密"psk2+ccmp"
 sed -i 's/defaults?.encryption || encryption/defaults?.encryption || "psk2+ccmp"/' package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc
+
+# 兼容8220分区
+grep -q 'fixed-partitions' target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq8071-ap8220.dts && awk 'BEGIN{c=0} /^\t\tpartitions \{$/{inpart=1; print "\t\tpartitions {"; print "\t\t\tcompatible = \"qcom,smem-part\";"; print "\t\t\tqcom,smem-flash-id = <" c ">;"; c++; next} inpart && /^\t\t\};$/{inpart=0; print; next} inpart{next} {print}' target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq8071-ap8220.dts > /tmp/ap8220.dts && mv /tmp/ap8220.dts target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq8071-ap8220.dts && grep -q 'qcom,smem-part' target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq8071-ap8220.dts && [ "$(grep -c 'qcom,smem-part' target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq8071-ap8220.dts)" = "2" ] || exit 1

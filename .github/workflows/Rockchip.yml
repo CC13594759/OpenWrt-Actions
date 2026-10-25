@@ -6,7 +6,7 @@ on:
     types:
       - completed
 env:
-  REPO_URL: https://github.com/openwrt/openwrt
+  REPO_URL: https://github.com/immortalwrt/immortalwrt
   REPO_BRANCH: openwrt-25.12
   CONFIG_FILE: config/Rockchip.config
   DIY_SCRIPT: scripts/diy.sh

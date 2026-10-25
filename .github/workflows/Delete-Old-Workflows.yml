@@ -1,0 +1,101 @@
+name: Delete-Old-Workflows
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 35 1 * * 6
+
+permissions:
+  actions: write
+
+jobs:
+  Cleaning:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 强制删除比本次早的全部运行记录
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          CURRENT_RUN_ID: ${{ github.run_id }}
+        run: |
+          python3 - << 'PY'
+          import json
+          import os
+          import time
+          import urllib.error
+          import urllib.request
+
+          token = os.environ["GH_TOKEN"]
+          repo = os.environ["REPO"]
+          current_id = int(os.environ["CURRENT_RUN_ID"])
+          base = f"https://api.github.com/repos/{repo}/actions/runs"
+
+          def api(method, url, expect=(200, 201, 202, 204)):
+              for attempt in range(3):
+                  req = urllib.request.Request(
+                      url, method=method,
+                      headers={
+                          "Authorization": f"Bearer {token}",
+                          "Accept": "application/vnd.github+json",
+                          "User-Agent": "delete-old-workflows",
+                      },
+                  )
+                  try:
+                      with urllib.request.urlopen(req, timeout=60) as resp:
+                          body = resp.read().decode() if resp.status != 204 else ""
+                          return resp.status, json.loads(body) if body else {}
+                  except urllib.error.HTTPError as e:
+                      # 404 = 已经被删了，不算错；429 / 5xx 等一下重试
+                      if e.code == 404:
+                          return 404, {}
+                      if e.code in (403, 429, 500, 502, 503) and attempt < 2:
+                          time.sleep(10 * (attempt + 1))
+                          continue
+                      return e.code, {}
+                  except Exception as e:
+                      print(f"请求失败 {method} {url}: {e}")
+                      return 0, {}
+              return 0, {}
+
+          # 1. 先拉全量列表再删，避免边删边翻页导致漏删
+          to_delete = []
+          page = 1
+          while True:
+              status, data = api("GET", f"{base}?per_page=100&page={page}")
+              if status != 200:
+                  print(f"拉取运行列表失败，HTTP {status}，停止")
+                  break
+              runs = data.get("workflow_runs", [])
+              if not runs:
+                  break
+              for r in runs:
+                  rid = r["id"]
+                  if rid == current_id:
+                      continue
+                  if rid < current_id:
+                      to_delete.append(r)
+              if len(runs) < 100:
+                  break
+              page += 1
+
+          print(f"本次运行 id={current_id}，共找到 {len(to_delete)} 条比它早的运行记录要删")
+
+          # 2. 逐条先强制取消（还在跑的），再删除
+          deleted = 0
+          failed = 0
+          for r in to_delete:
+              rid = r["id"]
+              label = f"{r['name']} #{r['run_number']} id={rid} status={r['status']}"
+              if r["status"] in ("queued", "in_progress", "waiting", "requested", "action_required"):
+                  s, _ = api("POST", f"{base}/{rid}/force-cancel")
+                  print(f"force-cancel {label} -> HTTP {s}")
+                  time.sleep(2)
+              s, _ = api("DELETE", f"{base}/{rid}")
+              if s in (204, 404):
+                  deleted += 1
+              else:
+                  failed += 1
+                  print(f"删除失败 {label} -> HTTP {s}")
+
+          print(f"完成：已删 {deleted} 条，失败 {failed} 条，本次运行自己未删")
+          PY

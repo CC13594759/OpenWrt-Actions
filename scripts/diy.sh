@@ -25,12 +25,11 @@ mkdir -p package/base-files/files/etc/crontabs && printf '%s\n' '# 定时重启�
 # 修改插件位置
 sed -i 's/vpn/services/g' feeds/luci/applications/luci-app-zerotier/root/usr/share/luci/menu.d/luci-app-zerotier.json
 
-# 修改WIFI名称
-sed -i "s/ssid='.*'/ssid='OpenWrt'/g" package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc
-# 修改WIFI密码
-sed -i "s/key='.*'/key='password'/g" package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc
-# 修改WIFI地区
-sed -i "s/country='.*'/country='CN'/g" package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc
-# 修改WIFI加密
-sed -i "s/encryption='.*'/encryption='psk2+ccmp'/g" package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc
-
+# 修改WIFI名称"OpenWrt"
+sed -i 's/defaults?.ssid || "ImmortalWrt"/defaults?.ssid || "OpenWrt"/' package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc
+# 修改WIFI密码"password"
+sed -i 's/defaults?.key || ""/defaults?.key || "password"/' package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc
+# 修改WIFI地区"CN"
+sed -i "s/set \${s}.country='\${country || ''}'/set \${s}.country=\"CN\"/; s/set \${s}.country='\${country || \"CN\"}'/set \${s}.country=\"CN\"/" package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc
+# 修改WIFI加密"psk2+ccmp"
+sed -i 's/defaults?.encryption || encryption/defaults?.encryption || "psk2+ccmp"/' package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc

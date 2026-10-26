@@ -1,6 +1,6 @@
 # 添加其他仓库的插件
-rm -rf package/feeds/luci/luci-theme-argon
 git clone --depth 1 -b main https://github.com/CC13594759/packages.git package/app
+rm -rf package/app/luci-theme-argon
 
 # 修改默认IP
 sed -i 's/192.168.6.1/192.168.13.1/g' package/base-files/files/bin/config_generate

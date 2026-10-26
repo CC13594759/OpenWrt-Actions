@@ -6,10 +6,10 @@ on:
     types:
       - completed
 env:
-  REPO_URL: https://github.com/immortalwrt/immortalwrt
-  REPO_BRANCH: openwrt-25.12
+  REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-6.6
+  REPO_BRANCH: openwrt-24.10-6.6
   CONFIG_FILE: config/MTK7981.config
-  DIY_SCRIPT: scripts/diy.sh
+  DIY_SCRIPT: scripts/MTK.sh
   CACHE_TOOLCHAIN: true
   FIRMWARE_RELEASE: true
   FIRMWARE_TAG: MTK7981
@@ -107,11 +107,6 @@ jobs:
         cd $OPENWRT_PATH
         $GITHUB_WORKSPACE/$DIY_SCRIPT
 
-    - name: 修改默认IP
-      run: |
-        cd $OPENWRT_PATH
-        sed -i 's/192.168.1.1/192.168.12.1/g' package/base-files/files/bin/config_generate
-        
     - name: 下载DL包
       run: |
         cd $OPENWRT_PATH
@@ -140,7 +135,7 @@ jobs:
       run: |
         cd $OPENWRT_PATH/bin/targets/*/*
         cp $OPENWRT_PATH/.config build.config
-        rm -rf packages feeds.buildinfo version.buildinfo config.buildinfo profiles.json sha256sums *bl2.bin *uboot.fip *preloader.bin
+        rm -rf packages feeds.buildinfo version.buildinfo config.buildinfo profiles.json sha256sums *bl2.bin
         echo "KERNEL=$(cat *.manifest | grep ^kernel | cut -d- -f2 | tr -d ' ')" >> $GITHUB_ENV
         echo "FIRMWARE_PATH=$PWD" >> $GITHUB_ENV
 

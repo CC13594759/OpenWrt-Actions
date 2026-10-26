@@ -6,10 +6,10 @@ on:
     types:
       - completed
 env:
-  REPO_URL: https://github.com/immortalwrt/immortalwrt
-  REPO_BRANCH: openwrt-25.12
+  REPO_URL: https://github.com/VIKINGYFY/immortalwrt
+  REPO_BRANCH: main
   CONFIG_FILE: config/IPQ807X.config
-  DIY_SCRIPT: scripts/diy.sh
+  DIY_SCRIPT: scripts/IPQ.sh
   CACHE_TOOLCHAIN: true
   FIRMWARE_RELEASE: true
   FIRMWARE_TAG: IPQ807X
@@ -107,11 +107,6 @@ jobs:
         cd $OPENWRT_PATH
         $GITHUB_WORKSPACE/$DIY_SCRIPT
 
-    - name: 修改默认IP
-      run: |
-        cd $OPENWRT_PATH
-        sed -i 's/192.168.1.1/192.168.12.1/g' package/base-files/files/bin/config_generate
-        
     - name: 下载DL包
       run: |
         cd $OPENWRT_PATH

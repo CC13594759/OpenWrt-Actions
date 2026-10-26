@@ -107,11 +107,6 @@ jobs:
         cd $OPENWRT_PATH
         $GITHUB_WORKSPACE/$DIY_SCRIPT
 
-    - name: 修改默认IP
-      run: |
-        cd $OPENWRT_PATH
-        sed -i 's/192.168.1.1/192.168.12.12/g' package/base-files/files/bin/config_generate
-        
     - name: 下载DL包
       run: |
         cd $OPENWRT_PATH
@@ -161,7 +156,7 @@ jobs:
           - 💝 源码分支: ${{ env.REPO_BRANCH }}
           - 🚀 内核版本: ${{ env.KERNEL }}
           - 🌐 默认地址: 192.168.12.12
-          - 🔑 默认密码: password
+          - 🔑 默认密码: 无
           ### 🧊 固件版本
           - 主源码更新记录
           - ${{ env.COMMIT_AUTHOR }}

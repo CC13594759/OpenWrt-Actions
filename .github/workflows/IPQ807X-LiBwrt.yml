@@ -1,4 +1,4 @@
-name: IPQ60XX-LiBwrt
+name: IPQ807X-LiBwrt
 on:
   workflow_dispatch:
   workflow_run:
@@ -12,7 +12,7 @@ env:
   DIY_SCRIPT: scripts/IPQ.sh
   CACHE_TOOLCHAIN: true
   FIRMWARE_RELEASE: true
-  FIRMWARE_TAG: IPQ60XX-LiBwrt
+  FIRMWARE_TAG: IPQ807X-LiBwrt
   TZ: Asia/Shanghai
 
 jobs:

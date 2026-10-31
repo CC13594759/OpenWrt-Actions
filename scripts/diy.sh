@@ -1,6 +1,6 @@
 # 添加其他仓库的插件
 #docker
-rm -rf feeds/luci/applications/luci-app-dockerman
+rm -rf feeds/luci/applications/luci-app-diskman feeds/luci/applications/luci-app-dockerman
 
 #argon
 rm -rf package/feeds/luci/luci-theme-argon

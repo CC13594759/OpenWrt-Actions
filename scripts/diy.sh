@@ -12,7 +12,7 @@ sed -i 's/192.168.1.1/192.168.12.12/g' package/base-files/files/bin/config_gener
 # 修改默认主题
 sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' $(find ./feeds/luci/collections/ -type f -name "Makefile")
 
-# 修改luci首页显示
+# 修改luci显示
 sed -i 's/ImmortalWrt/OpenWrt/gi' package/base-files/files/bin/config_generate
 sed -i '/downloads\.immortalwrt\.org/!s/ImmortalWrt/OpenWrt/gi' include/version.mk
 cp -f $GITHUB_WORKSPACE/scripts/index.js feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/index.js
@@ -20,7 +20,7 @@ F=feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/in
 MJS=feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/20_memory.js; for p in "_('Buffered')" "_('Cached')" "_('Swap free')" "if (mem.buffered)" "if (mem.cached)" "if (swap.total > 0)"; do grep -qF "$p" "$MJS" || { echo "20_memory.js: pattern not found: $p"; exit 1; }; done; sed -i "/_('Buffered')/d; /_('Cached')/d; /_('Swap free')/d; /if (mem.buffered)/d; /if (mem.cached)/d; /if (swap.total > 0)/d" "$MJS"
 rm -rf feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/{25_storage.js,50_dsl.js,60_wifi.js}
 rm -rf feeds/luci/applications/luci-app-ddns/htdocs/luci-static/resources/view/status/include/70_ddns.js
-
+rm -f package/base-files/files/etc/banner && curl -fsSL https://raw.githubusercontent.com/openwrt/openwrt/openwrt-25.12/package/base-files/files/etc/banner -o package/base-files/files/etc/banner && grep -q "W I R E L E S S" package/base-files/files/etc/banner || { echo "DIY FAIL: banner"; exit 1; }
 
 # 修改插件位置
 sed -i 's/vpn/services/g' feeds/luci/applications/luci-app-zerotier/root/usr/share/luci/menu.d/luci-app-zerotier.json
